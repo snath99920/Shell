@@ -20,7 +20,11 @@ void function_cd(char ** cmd)
 {
     char rop[1024];
 	// cd ~ and cd <NULL>
+<<<<<<< HEAD
 	if (strlen(cmd[1])<1 || strcmp(cmd[1],"~") == 0)
+=======
+	if (cmd[1] == NULL || strcmp(cmd[1],"~") == 0)
+>>>>>>> 1b496aaeb0097cca56aaef55ad1f99a6aaf6abfa
 		chdir(Home);
 	// Looks for the directory from home
 	else if(cmd[1][0] == '~')

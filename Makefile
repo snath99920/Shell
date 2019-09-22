@@ -8,10 +8,14 @@ shell: \
 			displayShell.o \
 			pwd.o \
 			echo.o \
+<<<<<<< HEAD
 			history.o\
 			redirect.o\
 			pipes.o\
 			min.o
+=======
+			history.o
+>>>>>>> 1b496aaeb0097cca56aaef55ad1f99a6aaf6abfa
 		$(CC) -g -o shell $^
 clean:
 	@rm -f *.o shell
@@ -45,9 +49,12 @@ echo.o: gvar.h src/echo.c
 
 history.o: gvar.h src/history.c
 	$(CC) -g -c src/history.c
+<<<<<<< HEAD
 redirect.o: gvar.h src/redirect.c
 	$(CC) -g -c src/redirect.c
 pipes.o: gvar.h src/pipes.c
 	$(CC) -g -c src/pipes.c
 min.o: gvar.h src/min.c
 	$(CC) -g -c src/min.c
+=======
+>>>>>>> 1b496aaeb0097cca56aaef55ad1f99a6aaf6abfa

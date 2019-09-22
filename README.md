@@ -16,7 +16,11 @@ This is a simple Shell written in C. Type in make to make the file and hit ./she
 8. pinfo.c - pinfo command
 9. pwd.c - pwd command
 
+<<<<<<< HEAD
 Done by: Srinath Nair
 Roll no: 2018111001
 
 References taken from the internet and man pages
+=======
+Created by: Srinath Nair
+>>>>>>> 1b496aaeb0097cca56aaef55ad1f99a6aaf6abfa

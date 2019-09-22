@@ -50,6 +50,7 @@ int main()
 		}
 		if(sc != noc-1)
 			cmd_sc[t++] = noc;
+<<<<<<< HEAD
 
 		int pCom[1024];
 		int it = 0;
@@ -129,6 +130,21 @@ int main()
         //         i++;
 		// 	}
 		// }
+=======
+		if(!sc)
+			run_shell(cmd, noc);
+		else
+        {
+			int l = 0, r, i = 0;
+			while(i<t)
+            {
+				r=cmd_sc[i];
+				run_shell(&(cmd[l]), r-l);
+				l=r+1;
+                i++;
+			}
+		}
+>>>>>>> 1b496aaeb0097cca56aaef55ad1f99a6aaf6abfa
 		// Only 20 history 
 		hist_count++;
 		hist_count = hist_count%20;
