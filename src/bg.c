@@ -18,6 +18,11 @@
 
 int child_stat;
 
+void lol()
+{
+	printf("Process exited\n");
+}
+
 void bg_exe(char **cmd, int noc)
 {
     // bg_pgm will be 1 if it is bg
@@ -29,49 +34,64 @@ void bg_exe(char **cmd, int noc)
 		cmd[noc-1] = '\0';
 		bg_pgm = 1;
 	}
-
+	
 	pid_t ret_fork_1 = fork();
     // fork() returns 0 when child is in control, negative on failing 
     //and positive on returning to parent process
+	cmd[noc] = '\0';
 	if (ret_fork_1 < 0)
 	{
 		printf("HMMS: ERROR: Couldn't fork\n");
 		exit(1);
 	}
     // execvp() returns -1 when the execution fails
-	else if (ret_fork_1 == 0)
+	else if (!ret_fork_1)
 	{
-		// The control moves into the following if it is a background
-		// program. Here is makes a grandchild who executes the process
-		// and the child waits for the grandshild to end
-		if (bg_pgm)
-		{
-			pid_t ret_fork_2 = fork();
-			if (ret_fork_2 == 0)
-			{
-				int flag = execvp(*cmd, cmd);
-				if (flag == -1) 
-					printf("HMMS: ERROR: Command not found\n");
-			}
-			waitpid(ret_fork_1, &child_stat, 0);
-			printf("%s: (%d) exited successfully\n", cmd[0], ret_fork_1);
-		}
-		// Here the program runs on the foreground and it is just basic
-		// execution
-		else
-		{
-			int flag = execvp(*cmd, cmd);
-			if (flag == -1)
-				printf("HMMS: ERROR: Command not found\n");
-		}
-		
-		//printf("%s: (%d) exited successfully\n", cmd[0], ret_fork_2);
+		if(execvp(*cmd, cmd) < 0)
+		printf("Invalid command\n");
+		// if (bg_pgm)
+		// {
+			// printf("Background reach\n");
+			bg_pr[ret_fork_1] = malloc(1024);
+			bg_len++;
+            bg_iter[bg_len] = ret_fork_1;
+			strcpy(bg_pr[ret_fork_1], cmd[0]);
+			printf("[%d]\n",ret_fork_1);
+			signal(SIGTSTP, SIG_IGN);
+			// printf("%s: (%d) exited successfully\n", cmd[0], ret_fork_1);
+		// }
+		// else 
+		// {
+		// 	// signal(SIGTSTP, SIG_IGN);
+		// 	waitpid(ret_fork_1, &child_stat, 0);
+		// 	printf("%s: (%d) exited successfully\n", cmd[0], ret_fork_1);
+		// }
+		exit(0);
 	}
 	else if (ret_fork_1 > 0)
 	{
+		// bg_pr[ret_fork_1] = malloc(1024);
+		// bg_len++;
+        // bg_iter[bg_len] = ret_fork_1;
+		// strcpy(bg_pr[ret_fork_1], cmd[0]);
 		if (bg_pgm)
-            printf("[%d]\n",ret_fork_1);
+		{
+			// printf("Background reach\n");
+			bg_pr[ret_fork_1] = malloc(1024);
+			bg_len++;
+            bg_iter[bg_len] = ret_fork_1;
+			strcpy(bg_pr[ret_fork_1], cmd[0]);
+			printf("[%d]\n",ret_fork_1);
+			// printf("%s: (%d) exited successfully\n", cmd[0], ret_fork_1);
+			signal(SIGCHLD,lol);
+		}
 		else
-			waitpid(ret_fork_1, &child_stat, 0);
+		{
+			// signal(SIGTSTP, SIG_IGN);
+			// process_now = ret_fork_1;
+			// tcsetpgrp(0,pid);
+			waitpid(ret_fork_1, &child_stat, WUNTRACED);
+			// printf("%s: (%d) exited successfully\n", cmd[0], ret_fork_1);
+		}
 	}
 }

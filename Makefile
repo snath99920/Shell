@@ -8,14 +8,20 @@ shell: \
 			displayShell.o \
 			pwd.o \
 			echo.o \
-<<<<<<< HEAD
 			history.o\
 			redirect.o\
 			pipes.o\
-			min.o
-=======
-			history.o
->>>>>>> 1b496aaeb0097cca56aaef55ad1f99a6aaf6abfa
+			min.o\
+			signal.o\
+			job_id.o\
+			kjob.o\
+			jobs.o\
+			overkill.o\
+			fg_bg.o\
+			env_set.o\
+			unset_env.o\
+			bg_f.o
+			
 		$(CC) -g -o shell $^
 clean:
 	@rm -f *.o shell
@@ -23,10 +29,34 @@ clean:
 main.o: gvar.h main.c
 	$(CC) -g -c main.c
 
+job_id.o: gvar.h src/job_id.c
+	$(CC) -g -c src/job_id.c
+
+kjob.o: gvar.h src/kjob.c
+	$(CC) -g -c src/kjob.c
+
+jobs.o: gvar.h src/jobs.c
+	$(CC) -g -c src/jobs.c
+
+bg_f.o: gvar.h src/bg_f.c
+	$(CC) -g -c src/bg_f.c
+
+overkill.o: gvar.h src/overkill.c
+	$(CC) -g -c src/overkill.c
+
+fg_bg.o: gvar.h src/fg_bg.c
+	$(CC) -g -c src/fg_bg.c
+
+unset_env.o: gvar.h src/unset_env.c
+	$(CC) -g -c src/unset_env.c
+
+env_set.o: gvar.h src/env_set.c
+	$(CC) -g -c src/env_set.c
+
 cd.o: gvar.h src/cd.c
 	$(CC) -g -c src/cd.c
 
-exec.o: gvar.h src/bg.c
+bg.o: gvar.h src/bg.c
 	$(CC) -g -c src/bg.c
 
 execute.o: gvar.h src/execute.c
@@ -49,12 +79,15 @@ echo.o: gvar.h src/echo.c
 
 history.o: gvar.h src/history.c
 	$(CC) -g -c src/history.c
-<<<<<<< HEAD
+	
 redirect.o: gvar.h src/redirect.c
 	$(CC) -g -c src/redirect.c
+
 pipes.o: gvar.h src/pipes.c
 	$(CC) -g -c src/pipes.c
+	
 min.o: gvar.h src/min.c
 	$(CC) -g -c src/min.c
-=======
->>>>>>> 1b496aaeb0097cca56aaef55ad1f99a6aaf6abfa
+
+signal.o: gvar.h src/signal.c
+	$(CC) -g -c src/signal.c

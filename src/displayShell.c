@@ -22,12 +22,8 @@ void displayShell()
     register uid_t user = geteuid();
     register struct passwd *passw = getpwuid(user);
     gethostname(host, sizeof(host));
-<<<<<<< HEAD
-    printf("<%s@%s", passw->pw_name, host);
-=======
-    printf("<%s", passw->pw_name);
-    printf("@%s", host);
->>>>>>> 1b496aaeb0097cca56aaef55ad1f99a6aaf6abfa
+    printf("<%s@", passw->pw_name);
+    printf("%s", host);
     getcwd(present,sizeof(present));
     int len = strlen(present);
     int k = 0, i;

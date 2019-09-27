@@ -96,10 +96,50 @@ void run_shell(char ** cmd,int noc)
 	{
 		print_hist();
 	}
-    else if(strcmp(cmd[0],"exit")==0)
+	else if(strcmp(cmd[0], "kjob")==0)
+	{
+		kjob(cmd, noc);
+	}
+	else if(strcmp(cmd[0], "jobs")==0)
+	{
+		// printf("execute ok\n");
+		jobs(cmd, noc);
+		// printf("execute done\n");
+	}
+	else if(strcmp(cmd[0], "overkill")==0)
+	{
+		overkill(cmd, noc);
+	}
+	else if(strcmp(cmd[0], "fg")==0)
+	{
+		if(noc == 2)
+		{
+			fg_bg(cmd, noc);
+		}
+		else
+		{
+			printf("Error\n");
+		}
+	}
+	else if(strcmp(cmd[0], "bg")==0)
+	{
+		if (noc == 2)
+			bf_func(cmd, noc);
+		else
+			printf("Error\n");
+	}
+	else if(strcmp(cmd[0], "setenv")==0)
+	{
+		set_env(cmd, noc);
+	}
+	else if(strcmp(cmd[0], "unsetenv")==0)
+	{
+		unset_env(cmd, noc);
+	}
+    else if(strcmp(cmd[0],"quit")==0)
     {
 		printf(" HMMS: Goodbye!\n");
-        exit(0);
+		kill(process_now, 9);
     }
 	else
 	{

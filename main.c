@@ -20,13 +20,17 @@
 int main()
 {
 	clear;
+	process_now = getpid();
 	// set home
     getcwd(Home, sizeof(Home));
 	end = strlen(Home);
+	signal(SIGINT, nothing);
+	signal(SIGTSTP, sigint_handler);
 	hist_count = 0;
 	while(true)
     {
         displayShell(end, Home);
+		// signal(SIGTSTP, sigint_handler);
 		int sc = 0, t = 0, cmd_sc[10001], noc = 1;
 		// sets the final point as \n here
 		memset(line, '\n', 1000001);
@@ -50,7 +54,6 @@ int main()
 		}
 		if(sc != noc-1)
 			cmd_sc[t++] = noc;
-<<<<<<< HEAD
 
 		int pCom[1024];
 		int it = 0;
@@ -90,31 +93,40 @@ int main()
 			
 		else
 		{
-			int left = 0, right, i;
-			for(i=0; i<t; i++)
+			int left = 0, right;
+			int i = 0;
+			while(i<t)
 			{
 				it=0;
 				right=cmd_sc[i];
-				for(int i=left;i<right;i++)
-					if(strcmp(cmd[i],"|")==0)
-						pCom[it++]=i;
+				int iter = left;
+				while(iter<right)
+				{
+					if(strcmp(cmd[iter],"|")==0)
+						pCom[it++]=iter;
+					iter++;
+				}
 				pCom[it++]=right-left;
 				if(it==1)
 					redirect(&cmd[left],right-left);
-				else{
+				else
+				{
 					fd_in = dup(STDIN_FILENO);
 					fd_out = dup(STDOUT_FILENO);
 					int g=left, z=-1;
-					for(int i=0;i<it;i++)
+					int iter = 0;
+					while(iter<it)
 					{
-						int h=pCom[i];
-						z = piped_exec(&cmd[g],z,it-1-i,g,h);
+						int h = pCom[iter];
+						z = piped_exec(&cmd[g],z,it-1-iter,g,h);
 						g = h+1;
+						iter++;
 					}
 					dup2(fd_in, STDIN_FILENO);
 					close(fd_in);		
 				}
 				left = right+1;
+				i++;
 			}
 		}
 				//redirect(cmd, noc);
@@ -130,21 +142,6 @@ int main()
         //         i++;
 		// 	}
 		// }
-=======
-		if(!sc)
-			run_shell(cmd, noc);
-		else
-        {
-			int l = 0, r, i = 0;
-			while(i<t)
-            {
-				r=cmd_sc[i];
-				run_shell(&(cmd[l]), r-l);
-				l=r+1;
-                i++;
-			}
-		}
->>>>>>> 1b496aaeb0097cca56aaef55ad1f99a6aaf6abfa
 		// Only 20 history 
 		hist_count++;
 		hist_count = hist_count%20;

@@ -29,7 +29,8 @@ int piped_exec(char ** cmd, int input_pipe, int fl, int left, int right)
         input_fd = input_pipe;
     if(fl != 0)
     	output_fd = fd_pipe[1];
-    pid_t pid = fork(), wpid;
+    pid_t pid = fork();
+    pid_t wpid;
     // fork() command returns a negative value on failing, a positive
     // value when the control returns to the parent process and 
     // a value of 0 when child is running
